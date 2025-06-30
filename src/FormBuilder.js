@@ -106,7 +106,6 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
         />
       </Row>
 
-      <h2><BioIcon /> Bio</h2>
       <TextArea
         rows={4}
         value={manualBio}
