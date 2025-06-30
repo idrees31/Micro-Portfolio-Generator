@@ -22,6 +22,20 @@ const themePresets = {
   },
 };
 
+// SVG icons for section headers and avatar
+const AvatarIcon = () => (
+  <svg width="54" height="54" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+);
+const SkillsIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+);
+const ProjectsIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+);
+const ContactIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4.5"/><path d="M3 10.5l9 6 9-6"/></svg>
+);
+
 const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
 
@@ -29,16 +43,21 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
     <PreviewSection bg={t.bg} text={t.text}>
       <PreviewCard card={t.card} layout={layout}>
         <Header>
-          <Name layout={layout}>{personal?.name || 'Your Name'}</Name>
-          <Title layout={layout}>{personal?.title || 'Your Title'}</Title>
+          <ProfileCard>
+            <AvatarWrapper><AvatarIcon /></AvatarWrapper>
+            <div>
+              <Name layout={layout}>{personal?.name || 'Your Name'}</Name>
+              <Title layout={layout}>{personal?.title || 'Your Title'}</Title>
+            </div>
+          </ProfileCard>
         </Header>
         <AccentBar accent={t.accent} />
         <Bio>{bio || 'Your professional summary will appear here.'}</Bio>
-        <SectionTitle layout={layout}>Skills</SectionTitle>
+        <SectionTitle layout={layout}><SkillsIcon /> Skills</SectionTitle>
         <SkillList>
           {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => <Skill key={i}>{s}</Skill>) : <Skill>Skill 1</Skill>}
         </SkillList>
-        <SectionTitle layout={layout}>Projects</SectionTitle>
+        <SectionTitle layout={layout}><ProjectsIcon /> Projects</SectionTitle>
         <ProjectList>
           {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
             <ProjectCard key={i} card={t.card}>
@@ -53,6 +72,7 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
             </ProjectCard>
           )}
         </ProjectList>
+        <SectionTitle layout={layout}><ContactIcon /> Contact</SectionTitle>
         <ContactInfo>
           {personal?.email && <span>Email: {personal.email}</span>}
           {personal?.phone && <span> | Phone: {personal.phone}</span>}
@@ -111,6 +131,24 @@ const Header = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.2rem;
+`;
+
+const ProfileCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.7rem;
+`;
+
+const AvatarWrapper = styled.div`
+  width: 54px;
+  height: 54px;
+  background: #232946;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(35, 41, 70, 0.09);
 `;
 
 const Name = styled.h2`
