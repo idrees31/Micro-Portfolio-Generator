@@ -164,13 +164,13 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
       ))}
       <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
 
-      <h2>Testimonials / Quotes</h2>
+      <h2>Testimonials / Quotes (optional)</h2>
       {testimonials.map((t, i) => (
         <TestimonialCard key={i}>
           <TextArea
             value={t.text}
             onChange={e => handleTestimonialChange(i, 'text', e.target.value)}
-            placeholder="Testimonial or favorite quote"
+            placeholder="Testimonial or favorite quote (optional)"
             rows={2}
           />
           <Input
