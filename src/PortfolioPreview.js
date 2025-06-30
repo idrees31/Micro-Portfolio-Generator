@@ -39,9 +39,6 @@ const ContactIcon = () => (
 const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, testimonials = [], onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
 
-  const DefaultProjectImg =
-    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=facearea&w=400&h=225&facepad=2&q=80';
-
   return (
     <PreviewSection bg={t.bg} text={t.text}>
       <PreviewCard card={t.card} layout={layout}>
@@ -66,7 +63,6 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
         <ProjectList>
           {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
             <ProjectCard key={i} card={t.card}>
-              <ProjectImg src={p.image || DefaultProjectImg} alt={p.title} />
               <ProjectTitle>{p.title}</ProjectTitle>
               <ProjectDesc>{p.description}</ProjectDesc>
               {p.tags && (
@@ -80,7 +76,6 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
             </ProjectCard>
           )) : (
             <ProjectCard card={t.card}>
-              <ProjectImg src={DefaultProjectImg} alt="Project" />
               <ProjectTitle>Project Title</ProjectTitle>
               <ProjectDesc>Project description will appear here.</ProjectDesc>
             </ProjectCard>
@@ -254,16 +249,6 @@ const ProjectCard = styled.div`
     box-shadow: 0 4px 18px rgba(35, 41, 70, 0.13);
     transform: scale(1.025);
   }
-`;
-
-const ProjectImg = styled.img`
-  width: 100%;
-  max-width: 340px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 1px 6px #eebbc3;
 `;
 
 const ProjectTitle = styled.div`

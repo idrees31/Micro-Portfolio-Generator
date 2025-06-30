@@ -19,7 +19,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
   // State for form fields
   const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
   const [skills, setSkills] = useState(initialSkills || ['']);
-  const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '', image: '', tags: '' }]);
+  const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '', tags: '' }]);
   const [manualBio, setManualBio] = useState(initialBio || '');
   const [testimonials, setTestimonials] = useState([{ text: '', author: '' }]);
 
@@ -38,7 +38,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
     newProjects[i][field] = value;
     setProjects(newProjects);
   };
-  const addProject = () => setProjects([...projects, { title: '', description: '', link: '', image: '', tags: '' }]);
+  const addProject = () => setProjects([...projects, { title: '', description: '', link: '', tags: '' }]);
   const removeProject = i => setProjects(projects.filter((_, idx) => idx !== i));
 
   const handleProjectImage = (i, file) => {
@@ -154,12 +154,6 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
             onChange={e => handleProjectChange(i, 'link', e.target.value)}
             placeholder="Project Link (optional)"
           />
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', margin: '0.5rem 0' }}>
-            <label style={{ fontSize: '0.98rem' }}>Image:
-              <input type="file" accept="image/*" style={{ marginLeft: '0.5rem' }} onChange={e => handleProjectImage(i, e.target.files[0])} />
-            </label>
-            {project.image && <img src={project.image} alt="Project" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, boxShadow: '0 1px 4px #eebbc3' }} />}
-          </div>
           <Input
             value={project.tags || ''}
             onChange={e => handleProjectTags(i, e.target.value)}
@@ -178,7 +172,6 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
             onChange={e => handleTestimonialChange(i, 'text', e.target.value)}
             placeholder="Testimonial or favorite quote"
             rows={2}
-            required
           />
           <Input
             value={t.author}
