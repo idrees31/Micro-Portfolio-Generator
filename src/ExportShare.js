@@ -10,13 +10,15 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
   // Export as PDF with auto-fit to one page
   const handleExportPDF = () => {
     if (previewRef.current) {
-      // Temporarily scale the preview to fit a Letter page (8.5x11in)
+      // Temporarily scale and center the preview to fit a Letter page (8.5x11in)
       const originalWidth = previewRef.current.offsetWidth;
       const originalHeight = previewRef.current.offsetHeight;
       const pageWidth = 816; // 8.5in * 96dpi
       const pageHeight = 1056; // 11in * 96dpi
       const scale = Math.min(pageWidth / originalWidth, pageHeight / originalHeight, 1);
-      previewRef.current.style.transform = `scale(${scale})`;
+      const offsetX = (pageWidth - originalWidth * scale) / 2;
+      const offsetY = (pageHeight - originalHeight * scale) / 2;
+      previewRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
       previewRef.current.style.transformOrigin = 'top left';
       previewRef.current.style.width = originalWidth + 'px';
       previewRef.current.style.height = originalHeight + 'px';
