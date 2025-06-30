@@ -1,21 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import html2pdf from 'html2pdf.js';
 import { saveAs } from 'file-saver';
 import PortfolioPreview from './PortfolioPreview';
 
-const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
+const ExportShare = ({ personal, skills, projects, theme, layout, bio, testimonials }) => {
   const previewRef = useRef();
+  const [pageCount, setPageCount] = useState(1);
 
   // Export as PDF
   const handleExportPDF = () => {
     if (previewRef.current) {
+      // Add a class to control page breaks
+      previewRef.current.classList.remove('page-break-1', 'page-break-2', 'page-break-3');
+      previewRef.current.classList.add(`page-break-${pageCount}`);
       html2pdf().from(previewRef.current).set({
         margin: 0.5,
         filename: 'portfolio.pdf',
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      }).save();
+      }).save().then(() => {
+        previewRef.current.classList.remove(`page-break-${pageCount}`);
+      });
     }
   };
 
@@ -33,13 +39,22 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
   return (
     <ExportSection>
       <h2>Export or Share Your Portfolio</h2>
+      <PageOptionRow>
+        <span>Pages:</span>
+        {[1,2,3].map(n => (
+          <PageRadio key={n}>
+            <input type="radio" id={`page${n}`} name="pages" value={n} checked={pageCount===n} onChange={()=>setPageCount(n)} />
+            <label htmlFor={`page${n}`}>{n}</label>
+          </PageRadio>
+        ))}
+      </PageOptionRow>
       <ButtonRow>
         <ExportBtn onClick={handleExportHTML}>Export as HTML</ExportBtn>
         <ExportBtn onClick={handleExportPDF}>Export as PDF</ExportBtn>
         <ExportBtn disabled title="Coming soon!">Share Live Link</ExportBtn>
       </ButtonRow>
       <Note>Below is a preview of what will be exported. You can go back and edit any section before exporting.</Note>
-      <PreviewWrapper ref={previewRef}>
+      <PreviewWrapper ref={previewRef} className={`page-break-${pageCount}`}>
         <PortfolioPreview
           personal={personal}
           skills={skills}
@@ -47,8 +62,20 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
           theme={theme}
           layout={layout}
           bio={bio}
+          testimonials={testimonials}
         />
       </PreviewWrapper>
+      <style>{`
+        .page-break-1 { }
+        .page-break-2 .SectionDivider:nth-of-type(2) { page-break-after: always; }
+        .page-break-3 .SectionDivider:nth-of-type(1),
+        .page-break-3 .SectionDivider:nth-of-type(3) { page-break-after: always; }
+        @media print {
+          .page-break-2 .SectionDivider:nth-of-type(2) { page-break-after: always; }
+          .page-break-3 .SectionDivider:nth-of-type(1),
+          .page-break-3 .SectionDivider:nth-of-type(3) { page-break-after: always; }
+        }
+      `}</style>
     </ExportSection>
   );
 };
@@ -108,6 +135,21 @@ const Note = styled.div`
 
 const PreviewWrapper = styled.div`
   margin-top: 1.5rem;
+`;
+
+const PageOptionRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.7rem;
+`;
+
+const PageRadio = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.08rem;
+  font-weight: 500;
 `;
 
 export default ExportShare; 
