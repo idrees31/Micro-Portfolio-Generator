@@ -53,10 +53,12 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
         </Header>
         <AccentBar accent={t.accent} />
         <Bio>{bio || 'Your professional summary will appear here.'}</Bio>
+        <SectionDivider />
         <SectionTitle layout={layout}><SkillsIcon /> Skills</SectionTitle>
         <SkillList>
           {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => <Skill key={i}>{s}</Skill>) : <Skill>Skill 1</Skill>}
         </SkillList>
+        <SectionDivider />
         <SectionTitle layout={layout}><ProjectsIcon /> Projects</SectionTitle>
         <ProjectList>
           {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
@@ -72,6 +74,7 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
             </ProjectCard>
           )}
         </ProjectList>
+        <SectionDivider />
         <SectionTitle layout={layout}><ContactIcon /> Contact</SectionTitle>
         <ContactInfo>
           {personal?.email && <span>Email: {personal.email}</span>}
@@ -276,6 +279,19 @@ const FinishedBtn = styled.button`
   &:hover {
     background: #eebbc3;
     color: #232946;
+  }
+`;
+
+const SectionDivider = styled.div`
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #eebbc3 0%, #8bd3dd 100%);
+  border-radius: 2px;
+  margin: 1.2rem 0 1.2rem 0;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 1;
   }
 `;
 
