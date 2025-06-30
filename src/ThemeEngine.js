@@ -25,11 +25,28 @@ const layouts = [
   { key: 'modern', name: 'Modern' },
 ];
 
-const ThemeEngine = () => {
+const ThemeEngine = ({ onSave }) => {
   const [selectedTheme, setSelectedTheme] = useState('light');
   const [selectedLayout, setSelectedLayout] = useState('minimalist');
+  const [saved, setSaved] = useState(false);
 
   const themeObj = themes.find(t => t.key === selectedTheme);
+
+  // Auto-save on selection
+  const handleThemeSelect = (key) => {
+    setSelectedTheme(key);
+    setSaved(false);
+  };
+  const handleLayoutSelect = (key) => {
+    setSelectedLayout(key);
+    setSaved(false);
+  };
+
+  // Save & Continue
+  const handleSave = () => {
+    setSaved(true);
+    if (onSave) onSave({ theme: selectedTheme, layout: selectedLayout });
+  };
 
   return (
     <ThemeSection>
@@ -39,7 +56,7 @@ const ThemeEngine = () => {
           <ThemeCard
             key={theme.key}
             active={selectedTheme === theme.key}
-            onClick={() => setSelectedTheme(theme.key)}
+            onClick={() => handleThemeSelect(theme.key)}
             style={{ background: theme.colors.bg }}
           >
             <ThemeName color={theme.colors.text}>{theme.name}</ThemeName>
@@ -54,7 +71,7 @@ const ThemeEngine = () => {
           <LayoutCard
             key={layout.key}
             active={selectedLayout === layout.key}
-            onClick={() => setSelectedLayout(layout.key)}
+            onClick={() => handleLayoutSelect(layout.key)}
           >
             {layout.name}
           </LayoutCard>
@@ -70,6 +87,10 @@ const ThemeEngine = () => {
           This is a live preview of your portfolio theme and layout. Your real content will appear here!
         </PreviewText>
       </PreviewBox>
+      <SaveBtn type="button" onClick={handleSave}>
+        Save & Continue
+      </SaveBtn>
+      {saved && <SavedMsg>Theme and layout saved! You can always come back and change it.</SavedMsg>}
     </ThemeSection>
   );
 };
@@ -214,6 +235,31 @@ const PreviewAccent = styled.div`
 const PreviewText = styled.div`
   font-size: ${({ layout }) => (layout === 'classic' ? '1.1rem' : '1rem')};
   opacity: 0.85;
+`;
+
+const SaveBtn = styled.button`
+  background: #232946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 1.5rem;
+  transition: background 0.2s;
+  &:hover {
+    background: #eebbc3;
+    color: #232946;
+  }
+`;
+
+const SavedMsg = styled.div`
+  color: #4caf50;
+  font-size: 1rem;
+  margin-top: 0.7rem;
+  font-weight: 500;
 `;
 
 export default ThemeEngine; 
