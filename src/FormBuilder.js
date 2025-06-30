@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+// SVG icons for section headers
+const UserIcon = () => (
+  <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+);
+const BioIcon = () => (
+  <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+);
+const SkillsIcon = () => (
+  <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+);
+const ProjectsIcon = () => (
+  <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+);
+
 const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, goToAIBio }) => {
   // State for form fields
   const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
@@ -33,7 +47,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
 
   return (
     <FormSection onSubmit={handleSubmit}>
-      <h2>Personal Information</h2>
+      <h2><UserIcon /> Personal Information</h2>
       <Row>
         <Input
           name="name"
@@ -67,7 +81,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
         />
       </Row>
 
-      <h2>Bio</h2>
+      <h2><BioIcon /> Bio</h2>
       <TextArea
         rows={4}
         value={manualBio}
@@ -80,7 +94,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
         </AIBioBtn>
       )}
 
-      <h2>Skills</h2>
+      <h2><SkillsIcon /> Skills</h2>
       {skills.map((skill, i) => (
         <SkillRow key={i}>
           <Input
@@ -94,7 +108,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
       ))}
       <AddBtn type="button" onClick={addSkill}>+ Add Skill</AddBtn>
 
-      <h2>Projects</h2>
+      <h2><ProjectsIcon /> Projects</h2>
       {projects.map((project, i) => (
         <ProjectCard key={i}>
           <Input
