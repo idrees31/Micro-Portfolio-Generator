@@ -7,15 +7,30 @@ import PortfolioPreview from './PortfolioPreview';
 const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
   const previewRef = useRef();
 
-  // Export as PDF
+  // Export as PDF with auto-fit to one page
   const handleExportPDF = () => {
     if (previewRef.current) {
+      // Temporarily scale the preview to fit a Letter page (8.5x11in)
+      const originalWidth = previewRef.current.offsetWidth;
+      const originalHeight = previewRef.current.offsetHeight;
+      const pageWidth = 816; // 8.5in * 96dpi
+      const pageHeight = 1056; // 11in * 96dpi
+      const scale = Math.min(pageWidth / originalWidth, pageHeight / originalHeight, 1);
+      previewRef.current.style.transform = `scale(${scale})`;
+      previewRef.current.style.transformOrigin = 'top left';
+      previewRef.current.style.width = originalWidth + 'px';
+      previewRef.current.style.height = originalHeight + 'px';
       html2pdf().from(previewRef.current).set({
-        margin: 0.5,
+        margin: 0,
         filename: 'portfolio.pdf',
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      }).save();
+        jsPDF: { unit: 'px', format: [pageWidth, pageHeight], orientation: 'portrait' },
+      }).save().then(() => {
+        previewRef.current.style.transform = '';
+        previewRef.current.style.transformOrigin = '';
+        previewRef.current.style.width = '';
+        previewRef.current.style.height = '';
+      });
     }
   };
 
