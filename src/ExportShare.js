@@ -19,22 +19,11 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio, testimoni
     }
   };
 
-  // Export as HTML
-  const handleExportHTML = () => {
-    if (previewRef.current) {
-      const html = previewRef.current.outerHTML;
-      const blob = new Blob([
-        `<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Portfolio</title></head><body style='margin:0;'>${html}</body></html>`
-      ], { type: 'text/html' });
-      saveAs(blob, 'portfolio.html');
-    }
-  };
-
   return (
     <ExportSection>
       <h2>Export or Share Your Portfolio</h2>
       <ButtonRow>
-        <ExportBtn onClick={handleExportHTML}>Export as HTML</ExportBtn>
+        {/* <ExportBtn onClick={handleExportHTML}>Export as HTML</ExportBtn> */}
         <ExportBtn onClick={handleExportPDF}>Export as PDF</ExportBtn>
         <ExportBtn disabled title="Coming soon!">Share Live Link</ExportBtn>
       </ButtonRow>
