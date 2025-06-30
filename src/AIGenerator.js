@@ -14,7 +14,7 @@ const AIGenerator = () => {
   const [bios, setBios] = useState([]); // Array of generated bios
   const [loading, setLoading] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(null); // Index of selected bio
-  const [navIdx, setNavIdx] = useState(0); // Navigation index for up to 10 options
+  const [navIdx, setNavIdx] = useState(0); // Navigation index for up to 5 options
   const [finalized, setFinalized] = useState(false);
 
   // Simulate AI generation
@@ -29,20 +29,10 @@ const AIGenerator = () => {
     }, 1200);
   };
 
-  // Simulate fetching 5 more bios for navigation (up to 10)
+  // Simulate fetching more bios for navigation (up to 5)
   const handleNext = () => {
-    if (navIdx < 9) {
-      if ((navIdx + 1) % 5 === 0 && bios.length < 10) {
-        // Simulate new bios
-        setLoading(true);
-        setTimeout(() => {
-          setBios(prev => [...prev, ...generateBios(input, 5).map((b, i) => b.replace(/#\d+/, `#${prev.length + i + 1}`).replace(/Version \d+/, `Version ${prev.length + i + 1}`))].slice(0, 10));
-          setNavIdx(idx => idx + 1);
-          setLoading(false);
-        }, 1000);
-      } else {
-        setNavIdx(idx => idx + 1);
-      }
+    if (navIdx < 4) {
+      setNavIdx(idx => idx + 1);
     }
   };
   const handleBack = () => {
@@ -89,8 +79,8 @@ const AIGenerator = () => {
           <p>{bios[navIdx]}</p>
           <NavRow>
             <NavBtn type="button" onClick={handleBack} disabled={navIdx === 0 || loading}>&lt; Back</NavBtn>
-            <Counter>{navIdx + 1} / 10</Counter>
-            <NavBtn type="button" onClick={handleNext} disabled={navIdx === 9 || loading}>Next &gt;</NavBtn>
+            <Counter>{navIdx + 1} / 5</Counter>
+            <NavBtn type="button" onClick={handleNext} disabled={navIdx === 4 || loading}>Next &gt;</NavBtn>
             <FinalBtn type="button" onClick={handleFinal}>Final</FinalBtn>
           </NavRow>
         </OutputBox>
