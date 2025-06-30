@@ -69,13 +69,13 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
 // Styled-components
 const PreviewSection = styled.div`
   width: 100%;
-  min-height: 100vh;
   background: ${({ bg }) => bg};
   color: ${({ text }) => text};
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 2rem 0;
+  box-sizing: border-box;
   @media (max-width: 600px) {
     padding: 0.5rem 0;
   }
