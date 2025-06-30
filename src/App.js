@@ -84,6 +84,8 @@ const App = () => {
             theme={theme}
             layout={layout}
             bio={bio}
+            onBack={() => setActiveSection('ai')}
+            onFinished={() => setActiveSection('export')}
           />
         )}
         {activeSection === 'export' && (

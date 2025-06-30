@@ -22,7 +22,7 @@ const themePresets = {
   },
 };
 
-const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio }) => {
+const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
 
   return (
@@ -57,6 +57,10 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
           {personal?.email && <span>Email: {personal.email}</span>}
           {personal?.phone && <span> | Phone: {personal.phone}</span>}
         </ContactInfo>
+        <ButtonRow>
+          <NavBtn type="button" onClick={onBack}>Back</NavBtn>
+          <FinishedBtn type="button" onClick={onFinished}>Finished</FinishedBtn>
+        </ButtonRow>
       </PreviewCard>
     </PreviewSection>
   );
@@ -197,6 +201,44 @@ const ContactInfo = styled.div`
   font-size: 0.98rem;
   color: #6c6c80;
   margin-top: 1.2rem;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  gap: 1.2rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+`;
+
+const NavBtn = styled.button`
+  background: #eebbc3;
+  color: #232946;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #ffd6e0;
+  }
+`;
+
+const FinishedBtn = styled.button`
+  background: #232946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #eebbc3;
+    color: #232946;
+  }
 `;
 
 export default PortfolioPreview; 
