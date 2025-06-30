@@ -121,6 +121,12 @@ const Sidebar = styled.aside`
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: 200;
   @media (max-width: 768px) {
     width: 70px;
     padding: 1rem 0.5rem;
@@ -172,7 +178,11 @@ const MainContent = styled.main`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-left: 240px;
+  width: calc(100% - 240px);
   @media (max-width: 768px) {
+    margin-left: 70px;
+    width: calc(100% - 70px);
     padding: 1rem 0.5rem;
   }
 `;
