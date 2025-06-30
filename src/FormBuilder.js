@@ -6,7 +6,6 @@ const FormBuilder = () => {
   const [personal, setPersonal] = useState({ name: '', title: '', email: '', phone: '' });
   const [skills, setSkills] = useState(['']);
   const [projects, setProjects] = useState([{ title: '', description: '', link: '' }]);
-  const [style, setStyle] = useState({ theme: 'light', layout: 'minimalist' });
 
   // Handlers
   const handlePersonalChange = e => setPersonal({ ...personal, [e.target.name]: e.target.value });
@@ -26,13 +25,11 @@ const FormBuilder = () => {
   const addProject = () => setProjects([...projects, { title: '', description: '', link: '' }]);
   const removeProject = i => setProjects(projects.filter((_, idx) => idx !== i));
 
-  const handleStyleChange = e => setStyle({ ...style, [e.target.name]: e.target.value });
-
   // For now, just log the form data on submit
   const handleSubmit = e => {
     e.preventDefault();
     alert('Form data saved! (Check console for details)');
-    console.log({ personal, skills, projects, style });
+    console.log({ personal, skills, projects });
   };
 
   return (
@@ -110,26 +107,6 @@ const FormBuilder = () => {
         </ProjectCard>
       ))}
       <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
-
-      <h2>Style Preferences</h2>
-      <Row>
-        <Label>
-          Theme:
-          <Select name="theme" value={style.theme} onChange={handleStyleChange}>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="colorful">Colorful</option>
-          </Select>
-        </Label>
-        <Label>
-          Layout:
-          <Select name="layout" value={style.layout} onChange={handleStyleChange}>
-            <option value="minimalist">Minimalist</option>
-            <option value="classic">Classic</option>
-            <option value="modern">Modern</option>
-          </Select>
-        </Label>
-      </Row>
 
       <SubmitBtn type="submit">Save & Continue</SubmitBtn>
     </FormSection>
@@ -268,27 +245,6 @@ const RemoveBtn = styled.button`
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-  }
-`;
-
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  font-weight: 500;
-  color: #232946;
-  gap: 0.3rem;
-  flex: 1;
-`;
-
-const Select = styled.select`
-  padding: 0.7rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #f7f8fa;
-  &:focus {
-    outline: 2px solid #eebbc3;
-    border-color: #eebbc3;
   }
 `;
 
