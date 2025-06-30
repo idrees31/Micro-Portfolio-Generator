@@ -32,16 +32,14 @@ const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimali
 
   const themeObj = themes.find(t => t.key === selectedTheme);
 
-  // Auto-save on selection
+  // Only update state, do not call onSave on selection
   const handleThemeSelect = (key) => {
     setSelectedTheme(key);
     setSaved(false);
-    if (onSave) onSave({ theme: key, layout: selectedLayout });
   };
   const handleLayoutSelect = (key) => {
     setSelectedLayout(key);
     setSaved(false);
-    if (onSave) onSave({ theme: selectedTheme, layout: key });
   };
 
   // Save & Continue
@@ -63,7 +61,6 @@ const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimali
           >
             <ThemeName color={theme.colors.text}>{theme.name}</ThemeName>
             <Accent color={theme.colors.accent} />
-            {selectedTheme === theme.key && <CheckMark>✓</CheckMark>}
           </ThemeCard>
         ))}
       </ThemeGrid>
@@ -265,22 +262,6 @@ const SavedMsg = styled.div`
   font-size: 1rem;
   margin-top: 0.7rem;
   font-weight: 500;
-`;
-
-const CheckMark = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 1.5rem;
-  color: #232946;
-  background: #eebbc3;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 4px rgba(35, 41, 70, 0.08);
 `;
 
 export default ThemeEngine; 
