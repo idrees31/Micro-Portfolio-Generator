@@ -3,13 +3,39 @@ import styled from 'styled-components';
 import FormBuilder from './FormBuilder';
 import ThemeEngine from './ThemeEngine';
 import AIGenerator from './AIGenerator';
+import PortfolioPreview from './PortfolioPreview';
 
 // Placeholder components
-const PortfolioPreview = () => <Section><h2>Portfolio Preview</h2><p>Live, responsive preview of the portfolio.</p></Section>;
 const ExportShare = () => <Section><h2>Export & Share</h2><p>Export as HTML/CSS, PDF, or share a live link.</p></Section>;
 
 const App = () => {
+  // Centralized state for all data
+  const [personal, setPersonal] = React.useState({ name: '', title: '', email: '', phone: '' });
+  const [skills, setSkills] = React.useState(['']);
+  const [projects, setProjects] = React.useState([{ title: '', description: '', link: '' }]);
+  const [theme, setTheme] = React.useState('light');
+  const [layout, setLayout] = React.useState('minimalist');
+  const [bio, setBio] = React.useState('');
+
   const [activeSection, setActiveSection] = React.useState('form');
+
+  // Handlers to update state from child components
+  const handleFormSave = (data) => {
+    setPersonal(data.personal);
+    setSkills(data.skills);
+    setProjects(data.projects);
+    // Optionally move to next section
+    setActiveSection('theme');
+  };
+  const handleThemeSave = (data) => {
+    setTheme(data.theme);
+    setLayout(data.layout);
+    setActiveSection('ai');
+  };
+  const handleBioSave = (finalBio) => {
+    setBio(finalBio);
+    setActiveSection('preview');
+  };
 
   return (
     <AppContainer>
@@ -24,10 +50,37 @@ const App = () => {
         </Nav>
       </Sidebar>
       <MainContent>
-        {activeSection === 'form' && <FormBuilder />}
-        {activeSection === 'theme' && <ThemeEngine />}
-        {activeSection === 'ai' && <AIGenerator />}
-        {activeSection === 'preview' && <PortfolioPreview />}
+        {activeSection === 'form' && (
+          <FormBuilder
+            onSave={handleFormSave}
+            initialPersonal={personal}
+            initialSkills={skills}
+            initialProjects={projects}
+          />
+        )}
+        {activeSection === 'theme' && (
+          <ThemeEngine
+            onSave={handleThemeSave}
+            initialTheme={theme}
+            initialLayout={layout}
+          />
+        )}
+        {activeSection === 'ai' && (
+          <AIGenerator
+            onSave={handleBioSave}
+            initialBio={bio}
+          />
+        )}
+        {activeSection === 'preview' && (
+          <PortfolioPreview
+            personal={personal}
+            skills={skills}
+            projects={projects}
+            theme={theme}
+            layout={layout}
+            bio={bio}
+          />
+        )}
         {activeSection === 'export' && <ExportShare />}
       </MainContent>
     </AppContainer>
