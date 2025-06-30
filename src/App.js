@@ -79,14 +79,27 @@ const App = () => {
           </Sidebar>
           <MainContent>
             {activeSection === 'form' && (
-              <FormBuilder
-                onSave={handleFormSave}
-                initialPersonal={personal}
-                initialSkills={skills}
-                initialProjects={projects}
-                initialBio={bio}
-                goToAIBio={() => setActiveSection('ai')}
-              />
+              <SplitScreen>
+                <FormBuilder
+                  onSave={handleFormSave}
+                  initialPersonal={personal}
+                  initialSkills={skills}
+                  initialProjects={projects}
+                  initialBio={bio}
+                  goToAIBio={() => setActiveSection('ai')}
+                />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <PortfolioPreview
+                    personal={personal}
+                    skills={skills}
+                    projects={projects}
+                    theme={theme}
+                    layout={layout}
+                    bio={bio}
+                    onBack={() => setActiveSection('theme')}
+                  />
+                </div>
+              </SplitScreen>
             )}
             {activeSection === 'theme' && (
               <ThemeEngine
@@ -310,5 +323,15 @@ const PreviewIcon = () => (
 const ExportIcon = () => (
   <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
 );
+
+const SplitScreen = styled.div`
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+`;
 
 export default App;
