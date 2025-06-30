@@ -99,6 +99,9 @@ const App = () => {
           />
         )}
       </MainContent>
+      <Footer>
+        Copyright © 2025 Idrees. All rights reserved.
+      </Footer>
     </AppContainer>
   );
 };
@@ -183,6 +186,23 @@ const Section = styled.section`
   margin-bottom: 2rem;
   @media (max-width: 768px) {
     padding: 1rem;
+  }
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0 0.5rem 0;
+  font-size: 0.98rem;
+  color: #888;
+  background: transparent;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+    padding: 0.7rem 0 0.3rem 0;
   }
 `;
 
