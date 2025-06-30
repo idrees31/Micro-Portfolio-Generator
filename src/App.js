@@ -60,11 +60,11 @@ const App = () => {
           <Sidebar>
             <Logo>MicroPortfolio</Logo>
             <Nav>
-              <NavItem active={activeSection === 'form'} onClick={() => setActiveSection('form')}>Form</NavItem>
-              <NavItem active={activeSection === 'theme'} onClick={() => setActiveSection('theme')}>Theme</NavItem>
-              <NavItem active={activeSection === 'ai'} onClick={() => setActiveSection('ai')}>AI Bio</NavItem>
-              <NavItem active={activeSection === 'preview'} onClick={() => setActiveSection('preview')}>Preview</NavItem>
-              <NavItem active={activeSection === 'export'} onClick={() => setActiveSection('export')}>Export/Share</NavItem>
+              <NavItem active={activeSection === 'form'} onClick={() => setActiveSection('form')}><FormIcon /> Form</NavItem>
+              <NavItem active={activeSection === 'theme'} onClick={() => setActiveSection('theme')}><ThemeIcon /> Theme</NavItem>
+              <NavItem active={activeSection === 'ai'} onClick={() => setActiveSection('ai')}><AIBioIcon /> AI Bio</NavItem>
+              <NavItem active={activeSection === 'preview'} onClick={() => setActiveSection('preview')}><PreviewIcon /> Preview</NavItem>
+              <NavItem active={activeSection === 'export'} onClick={() => setActiveSection('export')}><ExportIcon /> Export/Share</NavItem>
             </Nav>
           </Sidebar>
           <MainContent>
@@ -283,5 +283,22 @@ const HeroImage = styled.img`
   box-shadow: 0 4px 32px rgba(35, 41, 70, 0.09);
   display: block;
 `;
+
+// SVG icons
+const FormIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M7 14h.01"/><path d="M11 14h2"/></svg>
+);
+const ThemeIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+);
+const AIBioIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M2 11h20"/></svg>
+);
+const PreviewIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+);
+const ExportIcon = () => (
+  <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+);
 
 export default App;
