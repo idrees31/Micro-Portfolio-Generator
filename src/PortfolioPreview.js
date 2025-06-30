@@ -59,7 +59,6 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
         </ContactInfo>
         <ButtonRow>
           <NavBtn type="button" onClick={onBack}>Back</NavBtn>
-          <FinishedBtn type="button" onClick={onFinished}>Finished</FinishedBtn>
         </ButtonRow>
       </PreviewCard>
     </PreviewSection>
@@ -92,6 +91,7 @@ const PreviewCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  box-sizing: border-box;
   ${({ layout }) =>
     layout === 'modern' &&
     css`

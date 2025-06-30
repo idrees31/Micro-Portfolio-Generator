@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 function generateBios(input, count = 5) {
@@ -9,13 +9,17 @@ function generateBios(input, count = 5) {
   );
 }
 
-const AIGenerator = () => {
-  const [input, setInput] = useState('');
+const AIGenerator = ({ onSave, initialBio }) => {
+  const [input, setInput] = useState(initialBio || '');
   const [bios, setBios] = useState([]); // Array of generated bios
   const [loading, setLoading] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(null); // Index of selected bio
   const [navIdx, setNavIdx] = useState(0); // Navigation index for up to 5 options
   const [finalized, setFinalized] = useState(false);
+
+  useEffect(() => {
+    if (initialBio) setInput(initialBio);
+  }, [initialBio]);
 
   // Simulate AI generation
   const handleGenerate = () => {
@@ -46,6 +50,9 @@ const AIGenerator = () => {
 
   const handleFinal = () => {
     setFinalized(true);
+    if (onSave && bios[navIdx]) {
+      onSave(bios[navIdx]);
+    }
   };
 
   return (

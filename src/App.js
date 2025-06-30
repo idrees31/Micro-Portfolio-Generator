@@ -4,14 +4,7 @@ import FormBuilder from './FormBuilder';
 import ThemeEngine from './ThemeEngine';
 import AIGenerator from './AIGenerator';
 import PortfolioPreview from './PortfolioPreview';
-
-// Placeholder components
-const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => (
-  <Section>
-    <h2>Export & Share</h2>
-    <p>Export as HTML/CSS, PDF, or share a live link.</p>
-  </Section>
-);
+import ExportShare from './ExportShare';
 
 const App = () => {
   // Centralized state for all data
@@ -29,17 +22,21 @@ const App = () => {
     setPersonal(data.personal);
     setSkills(data.skills);
     setProjects(data.projects);
-    // Optionally move to next section
-    setActiveSection('theme');
+    if (data.manualBio && data.manualBio.trim()) {
+      setBio(data.manualBio);
+      setActiveSection('theme');
+    } else {
+      setActiveSection('ai');
+    }
   };
   const handleThemeSave = (data) => {
     setTheme(data.theme);
     setLayout(data.layout);
-    setActiveSection('ai');
+    setActiveSection('preview');
   };
   const handleBioSave = (finalBio) => {
     setBio(finalBio);
-    setActiveSection('preview');
+    setActiveSection('form');
   };
 
   return (
@@ -61,6 +58,8 @@ const App = () => {
             initialPersonal={personal}
             initialSkills={skills}
             initialProjects={projects}
+            initialBio={bio}
+            goToAIBio={() => setActiveSection('ai')}
           />
         )}
         {activeSection === 'theme' && (
@@ -84,8 +83,7 @@ const App = () => {
             theme={theme}
             layout={layout}
             bio={bio}
-            onBack={() => setActiveSection('ai')}
-            onFinished={() => setActiveSection('export')}
+            onBack={() => setActiveSection('theme')}
           />
         )}
         {activeSection === 'export' && (

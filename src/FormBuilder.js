@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const FormBuilder = () => {
+const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, goToAIBio }) => {
   // State for form fields
-  const [personal, setPersonal] = useState({ name: '', title: '', email: '', phone: '' });
-  const [skills, setSkills] = useState(['']);
-  const [projects, setProjects] = useState([{ title: '', description: '', link: '' }]);
+  const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
+  const [skills, setSkills] = useState(initialSkills || ['']);
+  const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '' }]);
+  const [manualBio, setManualBio] = useState(initialBio || '');
 
   // Handlers
   const handlePersonalChange = e => setPersonal({ ...personal, [e.target.name]: e.target.value });
@@ -25,11 +26,9 @@ const FormBuilder = () => {
   const addProject = () => setProjects([...projects, { title: '', description: '', link: '' }]);
   const removeProject = i => setProjects(projects.filter((_, idx) => idx !== i));
 
-  // For now, just log the form data on submit
   const handleSubmit = e => {
     e.preventDefault();
-    alert('Form data saved! (Check console for details)');
-    console.log({ personal, skills, projects });
+    onSave && onSave({ personal, skills, projects, manualBio });
   };
 
   return (
@@ -67,6 +66,19 @@ const FormBuilder = () => {
           type="tel"
         />
       </Row>
+
+      <h2>Bio</h2>
+      <TextArea
+        rows={4}
+        value={manualBio}
+        onChange={e => setManualBio(e.target.value)}
+        placeholder="Write your professional bio here, or use the AI generator."
+      />
+      {!manualBio && goToAIBio && (
+        <AIBioBtn type="button" onClick={goToAIBio}>
+          Generate with AI
+        </AIBioBtn>
+      )}
 
       <h2>Skills</h2>
       {skills.map((skill, i) => (
@@ -265,6 +277,24 @@ const SubmitBtn = styled.button`
     padding: 0.8rem 1.2rem;
     align-self: stretch;
   }
+  &:hover {
+    background: #eebbc3;
+    color: #232946;
+  }
+`;
+
+const AIBioBtn = styled.button`
+  background: #232946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
   &:hover {
     background: #eebbc3;
     color: #232946;
