@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import FormBuilder from './FormBuilder';
 import ThemeEngine from './ThemeEngine';
+import AIGenerator from './AIGenerator';
 
 // Placeholder components
-const AIGenerator = () => <Section><h2>AI Generator</h2><p>AI-powered bio/description generator.</p></Section>;
 const PortfolioPreview = () => <Section><h2>Portfolio Preview</h2><p>Live, responsive preview of the portfolio.</p></Section>;
 const ExportShare = () => <Section><h2>Export & Share</h2><p>Export as HTML/CSS, PDF, or share a live link.</p></Section>;
 
