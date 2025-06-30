@@ -13,7 +13,7 @@ const LandingPage = ({ onStart }) => (
       <p>Create a stunning, professional portfolio in minutes. No coding required.</p>
       <StartBtn onClick={onStart}>Start Building</StartBtn>
     </Hero>
-    <HeroImage src="https://undraw.co/api/illustrations/portfolio?color=232946" alt="Portfolio Illustration" />
+    <HeroImage src="https://undraw.co/static/images/undraw_portfolio_website_lidw.svg" alt="Portfolio Illustration" />
   </LandingContainer>
 );
 
@@ -234,12 +234,17 @@ const Footer = styled.footer`
 
 // Styled-components for landing page
 const LandingContainer = styled.div`
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   background: linear-gradient(135deg, #eebbc3 0%, #f7f8fa 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
 `;
 const Hero = styled.div`
   text-align: center;
@@ -276,6 +281,7 @@ const HeroImage = styled.img`
   margin-top: 1.5rem;
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(35, 41, 70, 0.09);
+  display: block;
 `;
 
 export default App;
