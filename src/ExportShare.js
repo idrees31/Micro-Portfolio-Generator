@@ -10,12 +10,12 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
   // Export as PDF with auto-fit to one page
   const handleExportPDF = () => {
     if (previewRef.current) {
-      // Temporarily scale and center the preview to fit a Letter page (8.5x11in)
+      // Always scale to fit all content on one page
       const originalWidth = previewRef.current.offsetWidth;
       const originalHeight = previewRef.current.offsetHeight;
       const pageWidth = 816; // 8.5in * 96dpi
       const pageHeight = 1056; // 11in * 96dpi
-      const scale = Math.min(pageWidth / originalWidth, pageHeight / originalHeight, 1);
+      const scale = Math.min(pageWidth / originalWidth, pageHeight / originalHeight);
       const offsetX = (pageWidth - originalWidth * scale) / 2;
       const offsetY = (pageHeight - originalHeight * scale) / 2;
       previewRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
@@ -25,7 +25,7 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
       html2pdf().from(previewRef.current).set({
         margin: 0,
         filename: 'portfolio.pdf',
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 1 },
         jsPDF: { unit: 'px', format: [pageWidth, pageHeight], orientation: 'portrait' },
       }).save().then(() => {
         previewRef.current.style.transform = '';
