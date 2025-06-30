@@ -148,9 +148,13 @@ const FormSection = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  @media (max-width: 768px) {
-    padding: 1rem;
+  @media (max-width: 900px) {
+    padding: 1.2rem;
     max-width: 100%;
+  }
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    gap: 1rem;
   }
 `;
 
@@ -171,6 +175,10 @@ const Input = styled.input`
   font-size: 1rem;
   background: #f7f8fa;
   margin-bottom: 0.5rem;
+  @media (max-width: 600px) {
+    font-size: 0.95rem;
+    padding: 0.7rem 0.8rem;
+  }
   &:focus {
     outline: 2px solid #eebbc3;
     border-color: #eebbc3;
@@ -186,6 +194,10 @@ const TextArea = styled.textarea`
   background: #f7f8fa;
   margin-bottom: 0.5rem;
   resize: vertical;
+  @media (max-width: 600px) {
+    font-size: 0.95rem;
+    padding: 0.7rem 0.8rem;
+  }
   &:focus {
     outline: 2px solid #eebbc3;
     border-color: #eebbc3;
@@ -208,6 +220,9 @@ const ProjectCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  @media (max-width: 600px) {
+    padding: 0.7rem;
+  }
 `;
 
 const AddBtn = styled.button`
@@ -221,6 +236,10 @@ const AddBtn = styled.button`
   cursor: pointer;
   margin-bottom: 1rem;
   transition: background 0.2s;
+  @media (max-width: 600px) {
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+  }
   &:hover {
     background: #ffd6e0;
   }
@@ -239,6 +258,11 @@ const RemoveBtn = styled.button`
   align-items: center;
   justify-content: center;
   margin-left: 0.5rem;
+  @media (max-width: 600px) {
+    width: 1.7rem;
+    height: 1.7rem;
+    font-size: 1rem;
+  }
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -278,6 +302,11 @@ const SubmitBtn = styled.button`
   align-self: flex-end;
   margin-top: 1rem;
   transition: background 0.2s;
+  @media (max-width: 600px) {
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    align-self: stretch;
+  }
   &:hover {
     background: #eebbc3;
     color: #232946;
