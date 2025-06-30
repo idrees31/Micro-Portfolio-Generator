@@ -102,7 +102,7 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
           )}
         </TestimonialList>
         <ButtonRow>
-          <NavBtn type="button" onClick={onBack}>Back</NavBtn>
+          {onBack && <NavBtn type="button" onClick={onBack}>Back</NavBtn>}
           {onFinished && <FinishedBtn type="button" onClick={onFinished}>Finished</FinishedBtn>}
         </ButtonRow>
       </PreviewCard>
