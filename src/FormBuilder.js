@@ -21,6 +21,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
   const [skills, setSkills] = useState(initialSkills || ['']);
   const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '', image: '', tags: '' }]);
   const [manualBio, setManualBio] = useState(initialBio || '');
+  const [testimonials, setTestimonials] = useState([{ text: '', author: '' }]);
 
   // Handlers
   const handlePersonalChange = e => setPersonal({ ...personal, [e.target.name]: e.target.value });
@@ -56,9 +57,17 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
     setProjects(newProjects);
   };
 
+  const handleTestimonialChange = (i, field, value) => {
+    const newTestimonials = [...testimonials];
+    newTestimonials[i][field] = value;
+    setTestimonials(newTestimonials);
+  };
+  const addTestimonial = () => setTestimonials([...testimonials, { text: '', author: '' }]);
+  const removeTestimonial = i => setTestimonials(testimonials.filter((_, idx) => idx !== i));
+
   const handleSubmit = e => {
     e.preventDefault();
-    onSave && onSave({ personal, skills, projects, manualBio });
+    onSave && onSave({ personal, skills, projects, manualBio, testimonials });
   };
 
   return (
@@ -161,6 +170,26 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
       ))}
       <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
 
+      <h2>Testimonials / Quotes</h2>
+      {testimonials.map((t, i) => (
+        <TestimonialCard key={i}>
+          <TextArea
+            value={t.text}
+            onChange={e => handleTestimonialChange(i, 'text', e.target.value)}
+            placeholder="Testimonial or favorite quote"
+            rows={2}
+            required
+          />
+          <Input
+            value={t.author}
+            onChange={e => handleTestimonialChange(i, 'author', e.target.value)}
+            placeholder="Author or source (optional)"
+          />
+          <RemoveBtn type="button" onClick={() => removeTestimonial(i)} disabled={testimonials.length === 1}>×</RemoveBtn>
+        </TestimonialCard>
+      ))}
+      <AddBtn type="button" onClick={addTestimonial}>+ Add Testimonial</AddBtn>
+
       <SubmitBtn type="submit">Save & Continue</SubmitBtn>
     </FormSection>
   );
@@ -255,6 +284,17 @@ const ProjectCard = styled.div`
   @media (max-width: 600px) {
     padding: 0.7rem;
   }
+`;
+
+const TestimonialCard = styled.div`
+  background: #f7f8fa;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #eebbc3;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const AddBtn = styled.button`
