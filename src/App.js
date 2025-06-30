@@ -57,17 +57,6 @@ const App = () => {
     setActiveSection('form');
   };
 
-  const handleReset = () => {
-    setPersonal(initialPersonal);
-    setSkills(initialSkills);
-    setProjects(initialProjects);
-    setTheme(initialTheme);
-    setLayout(initialLayout);
-    setBio(initialBio);
-    setActiveSection('form');
-    setShowLanding(false);
-  };
-
   return (
     <AppContainer>
       {showLanding ? (
@@ -83,7 +72,6 @@ const App = () => {
               <NavItem active={activeSection === 'preview'} onClick={() => setActiveSection('preview')}><PreviewIcon /> Preview</NavItem>
               <NavItem active={activeSection === 'export'} onClick={() => setActiveSection('export')}><ExportIcon /> Export/Share</NavItem>
             </Nav>
-            <ResetBtn type="button" onClick={handleReset}>Reset All</ResetBtn>
           </Sidebar>
           <MainContent>
             {activeSection === 'form' && (
@@ -319,26 +307,6 @@ const PreviewIcon = () => (
 const ExportIcon = () => (
   <svg width="20" height="20" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
 );
-
-const ResetBtn = styled.button`
-  background: #ff4d6d;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: auto;
-  margin-bottom: 1.5rem;
-  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
-  &:hover:enabled {
-    background: #ffb3c6;
-    color: #232946;
-    box-shadow: 0 2px 8px rgba(255, 77, 109, 0.18);
-    transform: translateY(-2px) scale(1.04);
-  }
-`;
 
 const SplitScreen = styled.div`
   display: flex;
