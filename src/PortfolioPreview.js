@@ -103,6 +103,7 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
         </TestimonialList>
         <ButtonRow>
           <NavBtn type="button" onClick={onBack}>Back</NavBtn>
+          {onFinished && <FinishedBtn type="button" onClick={onFinished}>Finished</FinishedBtn>}
         </ButtonRow>
       </PreviewCard>
     </PreviewSection>
@@ -312,14 +313,21 @@ const FinishedBtn = styled.button`
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 0.8rem 1.7rem;
+  padding: 0.7rem 1.5rem;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
-  &:hover {
+  margin-left: 1.2rem;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
+  &:hover:enabled {
     background: #eebbc3;
     color: #232946;
+    box-shadow: 0 2px 8px rgba(238, 187, 195, 0.18);
+    transform: translateY(-2px) scale(1.04);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 

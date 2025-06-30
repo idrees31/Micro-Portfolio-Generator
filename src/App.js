@@ -104,6 +104,7 @@ const App = () => {
                 bio={bio}
                 testimonials={testimonials}
                 onBack={() => setActiveSection('theme')}
+                onFinished={() => setActiveSection('export')}
               />
             )}
             {activeSection === 'export' && (
