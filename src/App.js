@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import FormBuilder from './FormBuilder';
 import ThemeEngine from './ThemeEngine';
 import AIGenerator from './AIGenerator';
 import PortfolioPreview from './PortfolioPreview';
 import ExportShare from './ExportShare';
+
+const LandingPage = ({ onStart }) => (
+  <LandingContainer>
+    <Hero>
+      <h1>Welcome to MicroPortfolio</h1>
+      <p>Create a stunning, professional portfolio in minutes. No coding required.</p>
+      <StartBtn onClick={onStart}>Start Building</StartBtn>
+    </Hero>
+    <HeroImage src="https://undraw.co/api/illustrations/portfolio?color=232946" alt="Portfolio Illustration" />
+  </LandingContainer>
+);
 
 const App = () => {
   // Centralized state for all data
@@ -16,6 +27,7 @@ const App = () => {
   const [bio, setBio] = React.useState('');
 
   const [activeSection, setActiveSection] = React.useState('form');
+  const [showLanding, setShowLanding] = useState(true);
 
   // Handlers to update state from child components
   const handleFormSave = (data) => {
@@ -41,65 +53,71 @@ const App = () => {
 
   return (
     <AppContainer>
-      <Sidebar>
-        <Logo>MicroPortfolio</Logo>
-        <Nav>
-          <NavItem active={activeSection === 'form'} onClick={() => setActiveSection('form')}>Form</NavItem>
-          <NavItem active={activeSection === 'theme'} onClick={() => setActiveSection('theme')}>Theme</NavItem>
-          <NavItem active={activeSection === 'ai'} onClick={() => setActiveSection('ai')}>AI Bio</NavItem>
-          <NavItem active={activeSection === 'preview'} onClick={() => setActiveSection('preview')}>Preview</NavItem>
-          <NavItem active={activeSection === 'export'} onClick={() => setActiveSection('export')}>Export/Share</NavItem>
-        </Nav>
-      </Sidebar>
-      <MainContent>
-        {activeSection === 'form' && (
-          <FormBuilder
-            onSave={handleFormSave}
-            initialPersonal={personal}
-            initialSkills={skills}
-            initialProjects={projects}
-            initialBio={bio}
-            goToAIBio={() => setActiveSection('ai')}
-          />
-        )}
-        {activeSection === 'theme' && (
-          <ThemeEngine
-            onSave={handleThemeSave}
-            initialTheme={theme}
-            initialLayout={layout}
-          />
-        )}
-        {activeSection === 'ai' && (
-          <AIGenerator
-            onSave={handleBioSave}
-            initialBio={bio}
-          />
-        )}
-        {activeSection === 'preview' && (
-          <PortfolioPreview
-            personal={personal}
-            skills={skills}
-            projects={projects}
-            theme={theme}
-            layout={layout}
-            bio={bio}
-            onBack={() => setActiveSection('theme')}
-          />
-        )}
-        {activeSection === 'export' && (
-          <ExportShare
-            personal={personal}
-            skills={skills}
-            projects={projects}
-            theme={theme}
-            layout={layout}
-            bio={bio}
-          />
-        )}
-      </MainContent>
-      <Footer>
-        Copyright © 2025 Idrees. All rights reserved.
-      </Footer>
+      {showLanding ? (
+        <LandingPage onStart={() => setShowLanding(false)} />
+      ) : (
+        <>
+          <Sidebar>
+            <Logo>MicroPortfolio</Logo>
+            <Nav>
+              <NavItem active={activeSection === 'form'} onClick={() => setActiveSection('form')}>Form</NavItem>
+              <NavItem active={activeSection === 'theme'} onClick={() => setActiveSection('theme')}>Theme</NavItem>
+              <NavItem active={activeSection === 'ai'} onClick={() => setActiveSection('ai')}>AI Bio</NavItem>
+              <NavItem active={activeSection === 'preview'} onClick={() => setActiveSection('preview')}>Preview</NavItem>
+              <NavItem active={activeSection === 'export'} onClick={() => setActiveSection('export')}>Export/Share</NavItem>
+            </Nav>
+          </Sidebar>
+          <MainContent>
+            {activeSection === 'form' && (
+              <FormBuilder
+                onSave={handleFormSave}
+                initialPersonal={personal}
+                initialSkills={skills}
+                initialProjects={projects}
+                initialBio={bio}
+                goToAIBio={() => setActiveSection('ai')}
+              />
+            )}
+            {activeSection === 'theme' && (
+              <ThemeEngine
+                onSave={handleThemeSave}
+                initialTheme={theme}
+                initialLayout={layout}
+              />
+            )}
+            {activeSection === 'ai' && (
+              <AIGenerator
+                onSave={handleBioSave}
+                initialBio={bio}
+              />
+            )}
+            {activeSection === 'preview' && (
+              <PortfolioPreview
+                personal={personal}
+                skills={skills}
+                projects={projects}
+                theme={theme}
+                layout={layout}
+                bio={bio}
+                onBack={() => setActiveSection('theme')}
+              />
+            )}
+            {activeSection === 'export' && (
+              <ExportShare
+                personal={personal}
+                skills={skills}
+                projects={projects}
+                theme={theme}
+                layout={layout}
+                bio={bio}
+              />
+            )}
+          </MainContent>
+          <Footer>
+            Copyright © 2025 Idrees. All rights reserved.
+          </Footer>
+        </>
+      )}
     </AppContainer>
   );
 };
@@ -212,6 +230,52 @@ const Footer = styled.footer`
     font-size: 0.9rem;
     padding: 0.7rem 0 0.3rem 0;
   }
+`;
+
+// Styled-components for landing page
+const LandingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #eebbc3 0%, #f7f8fa 100%);
+`;
+const Hero = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+  h1 {
+    font-size: 2.8rem;
+    color: #232946;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1.3rem;
+    color: #393e6e;
+    margin-bottom: 2rem;
+  }
+`;
+const StartBtn = styled.button`
+  background: #232946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #eebbc3;
+    color: #232946;
+  }
+`;
+const HeroImage = styled.img`
+  width: 340px;
+  max-width: 90vw;
+  margin-top: 1.5rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(35, 41, 70, 0.09);
 `;
 
 export default App;
