@@ -17,14 +17,24 @@ const LandingPage = ({ onStart }) => (
   </LandingContainer>
 );
 
+// Example data
+const examplePersonal = { name: 'Alex Johnson', title: 'Full Stack Developer', email: 'alex.johnson@email.com', phone: '+1 555-123-4567' };
+const exampleSkills = ['JavaScript', 'React', 'Node.js', 'CSS', 'MongoDB'];
+const exampleProjects = [
+  { title: 'Portfolio Website', description: 'A personal portfolio website to showcase my projects and skills.', link: 'https://alexjohnson.dev' },
+  { title: 'E-commerce App', description: 'A full-featured e-commerce application with shopping cart and payment integration.', link: 'https://github.com/alexjohnson/ecommerce' },
+  { title: 'Chat App', description: 'A real-time chat application using Socket.io and React.', link: '' }
+];
+const exampleBio = 'Passionate developer with 5+ years of experience building scalable web applications. Skilled in modern JavaScript frameworks and always eager to learn new technologies.';
+
 const App = () => {
   // Centralized state for all data
-  const [personal, setPersonal] = React.useState({ name: '', title: '', email: '', phone: '' });
-  const [skills, setSkills] = React.useState(['']);
-  const [projects, setProjects] = React.useState([{ title: '', description: '', link: '' }]);
+  const [personal, setPersonal] = React.useState(examplePersonal);
+  const [skills, setSkills] = React.useState(exampleSkills);
+  const [projects, setProjects] = React.useState(exampleProjects);
   const [theme, setTheme] = React.useState('light');
   const [layout, setLayout] = React.useState('minimalist');
-  const [bio, setBio] = React.useState('');
+  const [bio, setBio] = React.useState(exampleBio);
 
   const [activeSection, setActiveSection] = React.useState('form');
   const [showLanding, setShowLanding] = useState(true);
