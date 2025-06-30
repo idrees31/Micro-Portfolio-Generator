@@ -4,7 +4,7 @@ import html2pdf from 'html2pdf.js';
 import { saveAs } from 'file-saver';
 import PortfolioPreview from './PortfolioPreview';
 
-const ExportShare = ({ personal, skills, projects, theme, layout, bio, testimonials }) => {
+const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => {
   const previewRef = useRef();
 
   // Export as PDF
@@ -36,7 +36,6 @@ const ExportShare = ({ personal, skills, projects, theme, layout, bio, testimoni
           theme={theme}
           layout={layout}
           bio={bio}
-          testimonials={testimonials}
         />
       </PreviewWrapper>
     </ExportSection>

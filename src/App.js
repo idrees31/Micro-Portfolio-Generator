@@ -21,12 +21,10 @@ const App = () => {
   // Centralized state for all data
   const [personal, setPersonal] = React.useState({ name: '', title: '', email: '', phone: '' });
   const [skills, setSkills] = React.useState(['']);
-  const [projects, setProjects] = React.useState([{ title: '', description: '', link: '', image: '', tags: '' }]);
+  const [projects, setProjects] = React.useState([{ title: '', description: '', link: '', tags: '' }]);
   const [theme, setTheme] = React.useState('light');
   const [layout, setLayout] = React.useState('minimalist');
   const [bio, setBio] = React.useState('');
-  const [testimonials, setTestimonials] = React.useState([{ text: '', author: '' }]);
-
   const [activeSection, setActiveSection] = React.useState('form');
   const [showLanding, setShowLanding] = useState(true);
 
@@ -41,7 +39,6 @@ const App = () => {
     } else {
       setActiveSection('ai');
     }
-    if (data.testimonials) setTestimonials(data.testimonials);
   };
   const handleThemeSave = (data) => {
     setTheme(data.theme);
@@ -77,7 +74,6 @@ const App = () => {
                 initialSkills={skills}
                 initialProjects={projects}
                 initialBio={bio}
-                testimonials={testimonials}
                 goToAIBio={() => setActiveSection('ai')}
               />
             )}
@@ -102,7 +98,6 @@ const App = () => {
                 theme={theme}
                 layout={layout}
                 bio={bio}
-                testimonials={testimonials}
                 onBack={() => setActiveSection('theme')}
                 onFinished={() => setActiveSection('export')}
               />
@@ -115,7 +110,6 @@ const App = () => {
                 theme={theme}
                 layout={layout}
                 bio={bio}
-                testimonials={testimonials}
               />
             )}
           </MainContent>

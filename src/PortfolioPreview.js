@@ -36,7 +36,7 @@ const ContactIcon = () => (
   <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4.5"/><path d="M3 10.5l9 6 9-6"/></svg>
 );
 
-const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, testimonials = [], onBack, onFinished }) => {
+const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
 
   return (
@@ -87,20 +87,6 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
           {personal?.email && <span>Email: {personal.email}</span>}
           {personal?.phone && <span> | Phone: {personal.phone}</span>}
         </ContactInfo>
-        <SectionDivider />
-        <SectionTitle layout={layout}>Testimonials / Quotes</SectionTitle>
-        <TestimonialList>
-          {(testimonials && testimonials.length > 0 && testimonials[0].text) ? testimonials.map((t, i) => (
-            <TestimonialBubble key={i}>
-              <QuoteMark>“</QuoteMark>{t.text}<QuoteMark>”</QuoteMark>
-              {t.author && <TestimonialAuthor>- {t.author}</TestimonialAuthor>}
-            </TestimonialBubble>
-          )) : (
-            <TestimonialBubble>
-              <QuoteMark>“</QuoteMark>Your testimonials or favorite quotes will appear here.<QuoteMark>”</QuoteMark>
-            </TestimonialBubble>
-          )}
-        </TestimonialList>
         <ButtonRow>
           {onBack && <NavBtn type="button" onClick={onBack}>Back</NavBtn>}
           {onFinished && <FinishedBtn type="button" onClick={onFinished}>Finished</FinishedBtn>}
@@ -358,39 +344,6 @@ const TagChip = styled.span`
   padding: 0.22rem 0.8rem;
   font-size: 0.98rem;
   font-weight: 500;
-`;
-
-const TestimonialList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  margin-bottom: 1.2rem;
-`;
-
-const TestimonialBubble = styled.div`
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px #eebbc3;
-  padding: 1.1rem 1.5rem;
-  font-size: 1.08rem;
-  color: #232946;
-  position: relative;
-  font-style: italic;
-`;
-
-const TestimonialAuthor = styled.div`
-  font-size: 0.98rem;
-  color: #8bd3dd;
-  margin-top: 0.5rem;
-  font-style: normal;
-  text-align: right;
-`;
-
-const QuoteMark = styled.span`
-  font-size: 2.1rem;
-  color: #eebbc3;
-  vertical-align: middle;
-  font-style: normal;
 `;
 
 export default PortfolioPreview; 
