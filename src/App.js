@@ -6,7 +6,12 @@ import AIGenerator from './AIGenerator';
 import PortfolioPreview from './PortfolioPreview';
 
 // Placeholder components
-const ExportShare = () => <Section><h2>Export & Share</h2><p>Export as HTML/CSS, PDF, or share a live link.</p></Section>;
+const ExportShare = ({ personal, skills, projects, theme, layout, bio }) => (
+  <Section>
+    <h2>Export & Share</h2>
+    <p>Export as HTML/CSS, PDF, or share a live link.</p>
+  </Section>
+);
 
 const App = () => {
   // Centralized state for all data
@@ -81,7 +86,16 @@ const App = () => {
             bio={bio}
           />
         )}
-        {activeSection === 'export' && <ExportShare />}
+        {activeSection === 'export' && (
+          <ExportShare
+            personal={personal}
+            skills={skills}
+            projects={projects}
+            theme={theme}
+            layout={layout}
+            bio={bio}
+          />
+        )}
       </MainContent>
     </AppContainer>
   );
