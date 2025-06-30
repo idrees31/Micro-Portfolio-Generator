@@ -19,7 +19,7 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
   // State for form fields
   const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
   const [skills, setSkills] = useState(initialSkills || ['']);
-  const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '' }]);
+  const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '', image: '', tags: '' }]);
   const [manualBio, setManualBio] = useState(initialBio || '');
 
   // Handlers
@@ -37,8 +37,24 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
     newProjects[i][field] = value;
     setProjects(newProjects);
   };
-  const addProject = () => setProjects([...projects, { title: '', description: '', link: '' }]);
+  const addProject = () => setProjects([...projects, { title: '', description: '', link: '', image: '', tags: '' }]);
   const removeProject = i => setProjects(projects.filter((_, idx) => idx !== i));
+
+  const handleProjectImage = (i, file) => {
+    if (!file) return;
+    const reader = new window.FileReader();
+    reader.onloadend = () => {
+      const newProjects = [...projects];
+      newProjects[i].image = reader.result;
+      setProjects(newProjects);
+    };
+    reader.readAsDataURL(file);
+  };
+  const handleProjectTags = (i, value) => {
+    const newProjects = [...projects];
+    newProjects[i].tags = value;
+    setProjects(newProjects);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -128,6 +144,17 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
             value={project.link}
             onChange={e => handleProjectChange(i, 'link', e.target.value)}
             placeholder="Project Link (optional)"
+          />
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', margin: '0.5rem 0' }}>
+            <label style={{ fontSize: '0.98rem' }}>Image:
+              <input type="file" accept="image/*" style={{ marginLeft: '0.5rem' }} onChange={e => handleProjectImage(i, e.target.files[0])} />
+            </label>
+            {project.image && <img src={project.image} alt="Project" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 8, boxShadow: '0 1px 4px #eebbc3' }} />}
+          </div>
+          <Input
+            value={project.tags || ''}
+            onChange={e => handleProjectTags(i, e.target.value)}
+            placeholder="Tags (comma separated, e.g. React, Node.js)"
           />
           <RemoveBtn type="button" onClick={() => removeProject(i)} disabled={projects.length === 1}>×</RemoveBtn>
         </ProjectCard>
