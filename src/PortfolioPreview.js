@@ -36,8 +36,54 @@ const ContactIcon = () => (
   <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4.5"/><path d="M3 10.5l9 6 9-6"/></svg>
 );
 
-const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, onBack, onFinished }) => {
+const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, sectionOrder = ['bio', 'skills', 'projects'], onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
+
+  // Helper to render each section
+  const renderSection = section => {
+    if (section === 'bio') {
+      return <Bio key="bio">{bio || 'Your professional summary will appear here.'}</Bio>;
+    }
+    if (section === 'skills') {
+      return (
+        <React.Fragment key="skills">
+          <SectionTitle layout={layout}><SkillsIcon /> Skills</SectionTitle>
+          <SkillList>
+            {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => <Skill key={i}>{s}</Skill>) : <Skill>Skill 1</Skill>}
+          </SkillList>
+        </React.Fragment>
+      );
+    }
+    if (section === 'projects') {
+      return (
+        <React.Fragment key="projects">
+          <SectionTitle layout={layout}><ProjectsIcon /> Projects</SectionTitle>
+          <ProjectList>
+            {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
+              <ProjectCard key={i} card={t.card}>
+                <ProjectTitle>{p.title}</ProjectTitle>
+                <ProjectDesc>{p.description}</ProjectDesc>
+                {p.tags && (
+                  <TagRow>
+                    {p.tags.split(',').map((tag, idx) => (
+                      <TagChip key={idx}>{tag.trim()}</TagChip>
+                    ))}
+                  </TagRow>
+                )}
+                {p.link && <ProjectLink href={p.link} target="_blank" rel="noopener noreferrer">View Project</ProjectLink>}
+              </ProjectCard>
+            )) : (
+              <ProjectCard card={t.card}>
+                <ProjectTitle>Project Title</ProjectTitle>
+                <ProjectDesc>Project description will appear here.</ProjectDesc>
+              </ProjectCard>
+            )}
+          </ProjectList>
+        </React.Fragment>
+      );
+    }
+    return null;
+  };
 
   return (
     <PreviewSection bg={t.bg} text={t.text}>
@@ -52,35 +98,7 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
           </ProfileCard>
         </Header>
         <AccentBar accent={t.accent} />
-        <Bio>{bio || 'Your professional summary will appear here.'}</Bio>
-        <SectionDivider />
-        <SectionTitle layout={layout}><SkillsIcon /> Skills</SectionTitle>
-        <SkillList>
-          {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => <Skill key={i}>{s}</Skill>) : <Skill>Skill 1</Skill>}
-        </SkillList>
-        <SectionDivider />
-        <SectionTitle layout={layout}><ProjectsIcon /> Projects</SectionTitle>
-        <ProjectList>
-          {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
-            <ProjectCard key={i} card={t.card}>
-              <ProjectTitle>{p.title}</ProjectTitle>
-              <ProjectDesc>{p.description}</ProjectDesc>
-              {p.tags && (
-                <TagRow>
-                  {p.tags.split(',').map((tag, idx) => (
-                    <TagChip key={idx}>{tag.trim()}</TagChip>
-                  ))}
-                </TagRow>
-              )}
-              {p.link && <ProjectLink href={p.link} target="_blank" rel="noopener noreferrer">View Project</ProjectLink>}
-            </ProjectCard>
-          )) : (
-            <ProjectCard card={t.card}>
-              <ProjectTitle>Project Title</ProjectTitle>
-              <ProjectDesc>Project description will appear here.</ProjectDesc>
-            </ProjectCard>
-          )}
-        </ProjectList>
+        {sectionOrder.map(renderSection)}
         <SectionDivider />
         <SectionTitle layout={layout}><ContactIcon /> Contact</SectionTitle>
         <ContactInfo>
