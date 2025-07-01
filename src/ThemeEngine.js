@@ -17,12 +17,30 @@ const themes = [
     name: 'Colorful',
     colors: { bg: 'linear-gradient(135deg, #eebbc3 0%, #8bd3dd 100%)', text: '#232946', accent: '#fff' },
   },
+  {
+    key: 'ocean',
+    name: 'Ocean',
+    colors: { bg: 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)', text: '#fff', accent: '#8fd3f4' },
+  },
+  {
+    key: 'sunset',
+    name: 'Sunset',
+    colors: { bg: 'linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)', text: '#fff', accent: '#fbc2eb' },
+  },
+  {
+    key: 'forest',
+    name: 'Forest',
+    colors: { bg: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', text: '#fff', accent: '#b2f7ef' },
+  },
 ];
 
 const layouts = [
   { key: 'minimalist', name: 'Minimalist' },
   { key: 'classic', name: 'Classic' },
   { key: 'modern', name: 'Modern' },
+  { key: 'timeline', name: 'Timeline' },
+  { key: 'card', name: 'Card' },
+  { key: 'compact', name: 'Compact' },
 ];
 
 const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimalist' }) => {
