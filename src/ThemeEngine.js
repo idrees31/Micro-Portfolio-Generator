@@ -238,7 +238,7 @@ const PreviewBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1.5rem 2rem;
+  padding: 5rem 0.5rem;
   position: relative;
   overflow: hidden;
   @media (max-width: 600px) {
