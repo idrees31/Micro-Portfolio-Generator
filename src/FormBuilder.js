@@ -15,7 +15,7 @@ const ProjectsIcon = () => (
   <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
 );
 
-const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, sectionOrder = ['bio', 'skills', 'projects'], moveSection, goToAIBio }) => {
+const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, goToAIBio }) => {
   // State for form fields
   const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
   const [skills, setSkills] = useState(initialSkills || ['']);
@@ -61,15 +61,6 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
     onSave && onSave({ personal, skills, projects, manualBio });
   };
 
-  // Helper to render section reorder controls
-  const renderSectionHeader = (label, sectionKey) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
-      <h2 style={{ margin: 0 }}>{label}</h2>
-      <button type="button" onClick={() => moveSection(sectionKey, 'up')} disabled={sectionOrder.indexOf(sectionKey) === 0} style={{ fontSize: '1.1rem', cursor: 'pointer' }}>↑</button>
-      <button type="button" onClick={() => moveSection(sectionKey, 'down')} disabled={sectionOrder.indexOf(sectionKey) === sectionOrder.length - 1} style={{ fontSize: '1.1rem', cursor: 'pointer' }}>↓</button>
-    </div>
-  );
-
   return (
     <FormSection onSubmit={handleSubmit}>
       <h2><UserIcon /> Personal Information</h2>
@@ -106,82 +97,61 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
         />
       </Row>
 
-      {sectionOrder.map(section => {
-        if (section === 'bio') {
-          return (
-            <div key="bio">
-              {renderSectionHeader('Bio', 'bio')}
-              <TextArea
-                rows={4}
-                value={manualBio}
-                onChange={e => setManualBio(e.target.value)}
-                placeholder="Write your professional bio here, or use the AI generator."
-              />
-              {!manualBio && goToAIBio && (
-                <AIBioBtn type="button" onClick={goToAIBio}>
-                  Generate with AI
-                </AIBioBtn>
-              )}
-            </div>
-          );
-        }
-        if (section === 'skills') {
-          return (
-            <div key="skills">
-              {renderSectionHeader('Skills', 'skills')}
-              {skills.map((skill, i) => (
-                <SkillRow key={i}>
-                  <Input
-                    value={skill}
-                    onChange={e => handleSkillChange(i, e.target.value)}
-                    placeholder={`Skill #${i + 1}`}
-                    required
-                  />
-                  <RemoveBtn type="button" onClick={() => removeSkill(i)} disabled={skills.length === 1}>×</RemoveBtn>
-                </SkillRow>
-              ))}
-              <AddBtn type="button" onClick={addSkill}>+ Add Skill</AddBtn>
-            </div>
-          );
-        }
-        if (section === 'projects') {
-          return (
-            <div key="projects">
-              {renderSectionHeader('Projects', 'projects')}
-              {projects.map((project, i) => (
-                <ProjectCard key={i}>
-                  <Input
-                    value={project.title}
-                    onChange={e => handleProjectChange(i, 'title', e.target.value)}
-                    placeholder="Project Title"
-                    required
-                  />
-                  <TextArea
-                    value={project.description}
-                    onChange={e => handleProjectChange(i, 'description', e.target.value)}
-                    placeholder="Project Description"
-                    rows={2}
-                    required
-                  />
-                  <Input
-                    value={project.link}
-                    onChange={e => handleProjectChange(i, 'link', e.target.value)}
-                    placeholder="Project Link (optional)"
-                  />
-                  <Input
-                    value={project.tags || ''}
-                    onChange={e => handleProjectTags(i, e.target.value)}
-                    placeholder="Tags (comma separated, e.g. React, Node.js)"
-                  />
-                  <RemoveBtn type="button" onClick={() => removeProject(i)} disabled={projects.length === 1}>×</RemoveBtn>
-                </ProjectCard>
-              ))}
-              <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
-            </div>
-          );
-        }
-        return null;
-      })}
+      <h2>Bio</h2>
+      <TextArea
+        rows={4}
+        value={manualBio}
+        onChange={e => setManualBio(e.target.value)}
+        placeholder="Write your professional bio here, or use the AI generator."
+      />
+      {!manualBio && goToAIBio && (
+        <AIBioBtn type="button" onClick={goToAIBio}>
+          Generate with AI
+        </AIBioBtn>
+      )}
+      <h2><SkillsIcon /> Skills</h2>
+      {skills.map((skill, i) => (
+        <SkillRow key={i}>
+          <Input
+            value={skill}
+            onChange={e => handleSkillChange(i, e.target.value)}
+            placeholder={`Skill #${i + 1}`}
+            required
+          />
+          <RemoveBtn type="button" onClick={() => removeSkill(i)} disabled={skills.length === 1}>×</RemoveBtn>
+        </SkillRow>
+      ))}
+      <AddBtn type="button" onClick={addSkill}>+ Add Skill</AddBtn>
+      <h2><ProjectsIcon /> Projects</h2>
+      {projects.map((project, i) => (
+        <ProjectCard key={i}>
+          <Input
+            value={project.title}
+            onChange={e => handleProjectChange(i, 'title', e.target.value)}
+            placeholder="Project Title"
+            required
+          />
+          <TextArea
+            value={project.description}
+            onChange={e => handleProjectChange(i, 'description', e.target.value)}
+            placeholder="Project Description"
+            rows={2}
+            required
+          />
+          <Input
+            value={project.link}
+            onChange={e => handleProjectChange(i, 'link', e.target.value)}
+            placeholder="Project Link (optional)"
+          />
+          <Input
+            value={project.tags || ''}
+            onChange={e => handleProjectTags(i, e.target.value)}
+            placeholder="Tags (comma separated, e.g. React, Node.js)"
+          />
+          <RemoveBtn type="button" onClick={() => removeProject(i)} disabled={projects.length === 1}>×</RemoveBtn>
+        </ProjectCard>
+      ))}
+      <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
       <SubmitBtn type="submit">Save & Continue</SubmitBtn>
     </FormSection>
   );

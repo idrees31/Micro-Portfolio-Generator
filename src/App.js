@@ -34,7 +34,6 @@ const App = () => {
   const [bio, setBio] = React.useState(initialBio);
   const [activeSection, setActiveSection] = React.useState('form');
   const [showLanding, setShowLanding] = useState(true);
-  const [sectionOrder, setSectionOrder] = React.useState(['bio', 'skills', 'projects']);
 
   // Handlers to update state from child components
   const handleFormSave = (data) => {
@@ -56,17 +55,6 @@ const App = () => {
   const handleBioSave = (finalBio) => {
     setBio(finalBio);
     setActiveSection('form');
-  };
-
-  // Handler to move a section up or down
-  const moveSection = (section, direction) => {
-    const idx = sectionOrder.indexOf(section);
-    if (idx < 0) return;
-    const newOrder = [...sectionOrder];
-    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
-    if (swapIdx < 0 || swapIdx >= sectionOrder.length) return;
-    [newOrder[idx], newOrder[swapIdx]] = [newOrder[swapIdx], newOrder[idx]];
-    setSectionOrder(newOrder);
   };
 
   return (
@@ -93,8 +81,6 @@ const App = () => {
                 initialSkills={skills}
                 initialProjects={projects}
                 initialBio={bio}
-                sectionOrder={sectionOrder}
-                moveSection={moveSection}
                 goToAIBio={() => setActiveSection('ai')}
               />
             )}
@@ -119,7 +105,6 @@ const App = () => {
                 theme={theme}
                 layout={layout}
                 bio={bio}
-                sectionOrder={sectionOrder}
                 onBack={() => setActiveSection('theme')}
                 onFinished={() => setActiveSection('export')}
               />
