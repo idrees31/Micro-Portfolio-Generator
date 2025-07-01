@@ -13,7 +13,7 @@ const LandingPage = ({ onStart }) => (
       <p>Create a stunning, professional portfolio in minutes. No coding required.</p>
       <StartBtn onClick={onStart}>Start Building</StartBtn>
     </Hero>
-    <HeroImage src="https://undraw.co/static/images/undraw_portfolio_website_lidw.svg" alt="Portfolio Illustration" />
+    <HeroImage src="/portfolio_website.svg" alt="Portfolio Illustration" />
   </LandingContainer>
 );
 
@@ -34,6 +34,7 @@ const App = () => {
   const [bio, setBio] = React.useState(initialBio);
   const [activeSection, setActiveSection] = React.useState('form');
   const [showLanding, setShowLanding] = useState(true);
+  const [customSections, setCustomSections] = React.useState([]);
 
   // Handlers to update state from child components
   const handleFormSave = (data) => {
@@ -46,6 +47,7 @@ const App = () => {
     } else {
       setActiveSection('ai');
     }
+    if (data.customSections) setCustomSections(data.customSections);
   };
   const handleThemeSave = (data) => {
     setTheme(data.theme);
@@ -81,6 +83,8 @@ const App = () => {
                 initialSkills={skills}
                 initialProjects={projects}
                 initialBio={bio}
+                customSections={customSections}
+                setCustomSections={setCustomSections}
                 goToAIBio={() => setActiveSection('ai')}
               />
             )}
@@ -105,6 +109,7 @@ const App = () => {
                 theme={theme}
                 layout={layout}
                 bio={bio}
+                customSections={customSections}
                 onBack={() => setActiveSection('theme')}
                 onFinished={() => setActiveSection('export')}
               />
@@ -283,8 +288,8 @@ const StartBtn = styled.button`
   }
 `;
 const HeroImage = styled.img`
-  width: 340px;
-  max-width: 90vw;
+  width: 500px;
+  max-width: 95vw;
   margin-top: 1.5rem;
   border-radius: 18px;
   box-shadow: 0 4px 32px rgba(35, 41, 70, 0.09);

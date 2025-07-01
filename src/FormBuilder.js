@@ -15,10 +15,14 @@ const ProjectsIcon = () => (
   <svg width="22" height="22" fill="none" stroke="#232946" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
 );
 
-const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, goToAIBio }) => {
+const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, initialBio, customSections = [], setCustomSections, goToAIBio }) => {
   // State for form fields
   const [personal, setPersonal] = useState(initialPersonal || { name: '', title: '', email: '', phone: '' });
-  const [skills, setSkills] = useState(initialSkills || ['']);
+  const [skills, setSkills] = useState(
+    (initialSkills && initialSkills[0] && typeof initialSkills[0] === 'object')
+      ? initialSkills
+      : (initialSkills || ['']).map(s => ({ name: s, level: 'Intermediate' }))
+  );
   const [projects, setProjects] = useState(initialProjects || [{ title: '', description: '', link: '', tags: '' }]);
   const [manualBio, setManualBio] = useState(initialBio || '');
 
@@ -26,10 +30,15 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
   const handlePersonalChange = e => setPersonal({ ...personal, [e.target.name]: e.target.value });
   const handleSkillChange = (i, value) => {
     const newSkills = [...skills];
-    newSkills[i] = value;
+    newSkills[i].name = value;
     setSkills(newSkills);
   };
-  const addSkill = () => setSkills([...skills, '']);
+  const handleSkillLevel = (i, level) => {
+    const newSkills = [...skills];
+    newSkills[i].level = level;
+    setSkills(newSkills);
+  };
+  const addSkill = () => setSkills([...skills, { name: '', level: 'Intermediate' }]);
   const removeSkill = i => setSkills(skills.filter((_, idx) => idx !== i));
 
   const handleProjectChange = (i, field, value) => {
@@ -56,9 +65,18 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
     setProjects(newProjects);
   };
 
+  // Custom section handlers
+  const handleCustomSectionChange = (i, field, value) => {
+    const updated = [...customSections];
+    updated[i][field] = value;
+    setCustomSections(updated);
+  };
+  const addCustomSection = () => setCustomSections([...customSections, { title: '', content: '' }]);
+  const removeCustomSection = i => setCustomSections(customSections.filter((_, idx) => idx !== i));
+
   const handleSubmit = e => {
     e.preventDefault();
-    onSave && onSave({ personal, skills, projects, manualBio });
+    onSave && onSave({ personal, skills, projects, manualBio, customSections });
   };
 
   return (
@@ -113,11 +131,16 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
       {skills.map((skill, i) => (
         <SkillRow key={i}>
           <Input
-            value={skill}
+            value={skill.name}
             onChange={e => handleSkillChange(i, e.target.value)}
             placeholder={`Skill #${i + 1}`}
             required
           />
+          <select value={skill.level} onChange={e => handleSkillLevel(i, e.target.value)} style={{ marginLeft: 8, borderRadius: 6, padding: '0.4rem 0.7rem', fontSize: '1rem' }}>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Expert">Expert</option>
+          </select>
           <RemoveBtn type="button" onClick={() => removeSkill(i)} disabled={skills.length === 1}>×</RemoveBtn>
         </SkillRow>
       ))}
@@ -152,6 +175,26 @@ const FormBuilder = ({ onSave, initialPersonal, initialSkills, initialProjects, 
         </ProjectCard>
       ))}
       <AddBtn type="button" onClick={addProject}>+ Add Project</AddBtn>
+      <h2>Custom Sections</h2>
+      {customSections.map((section, i) => (
+        <CustomSectionCard key={i}>
+          <Input
+            value={section.title}
+            onChange={e => handleCustomSectionChange(i, 'title', e.target.value)}
+            placeholder="Section Title (e.g. Certifications, Awards)"
+            required
+          />
+          <TextArea
+            value={section.content}
+            onChange={e => handleCustomSectionChange(i, 'content', e.target.value)}
+            placeholder="Section Content"
+            rows={2}
+            required
+          />
+          <RemoveBtn type="button" onClick={() => removeCustomSection(i)} disabled={customSections.length === 1}>×</RemoveBtn>
+        </CustomSectionCard>
+      ))}
+      <AddBtn type="button" onClick={addCustomSection}>+ Add Custom Section</AddBtn>
       <SubmitBtn type="submit">Save & Continue</SubmitBtn>
     </FormSection>
   );
@@ -331,6 +374,17 @@ const AIBioBtn = styled.button`
     background: #eebbc3;
     color: #232946;
   }
+`;
+
+const CustomSectionCard = styled.div`
+  background: #f7f8fa;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #eebbc3;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 export default FormBuilder; 

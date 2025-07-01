@@ -20,6 +20,42 @@ const themePresets = {
     accent: '#fff',
     card: 'rgba(255,255,255,0.7)',
   },
+  ocean: {
+    bg: 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)',
+    text: '#fff',
+    accent: '#8fd3f4',
+    card: 'rgba(143,211,244,0.13)',
+  },
+  sunset: {
+    bg: 'linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)',
+    text: '#fff',
+    accent: '#fbc2eb',
+    card: 'rgba(251,194,235,0.13)',
+  },
+  forest: {
+    bg: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+    text: '#fff',
+    accent: '#b2f7ef',
+    card: 'rgba(178,247,239,0.13)',
+  },
+  lavender: {
+    bg: 'linear-gradient(135deg, #eecda3 0%, #ef629f 100%)',
+    text: '#232946',
+    accent: '#b993d6',
+    card: 'rgba(185,147,214,0.13)',
+  },
+  midnight: {
+    bg: 'linear-gradient(135deg, #232526 0%, #414345 100%)',
+    text: '#fff',
+    accent: '#6a82fb',
+    card: 'rgba(106,130,251,0.13)',
+  },
+  coral: {
+    bg: 'linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%)',
+    text: '#232946',
+    accent: '#ff6f61',
+    card: 'rgba(255,111,97,0.13)',
+  },
 };
 
 // SVG icons for section headers and avatar
@@ -36,7 +72,7 @@ const ContactIcon = () => (
   <svg width="20" height="20" fill="none" stroke="#eebbc3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4.5"/><path d="M3 10.5l9 6 9-6"/></svg>
 );
 
-const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, onBack, onFinished }) => {
+const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout = 'minimalist', bio, customSections = [], onBack, onFinished }) => {
   const t = themePresets[theme] || themePresets.light;
 
   return (
@@ -53,14 +89,19 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
         </Header>
         <AccentBar accent={t.accent} />
         <Bio>{bio || 'Your professional summary will appear here.'}</Bio>
-        <SectionTitle layout={layout}><SkillsIcon /> Skills</SectionTitle>
+        <SectionTitle theme={t} layout={layout}><SkillsIcon /> Skills</SectionTitle>
         <SkillList>
-          {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => <Skill key={i}>{s}</Skill>) : <Skill>Skill 1</Skill>}
+          {(skills && skills.length > 0 && skills[0]) ? skills.map((s, i) => (
+            <Skill key={i} theme={t}>
+              {s.name}
+              <SkillLevel level={s.level} theme={t}>{s.level}</SkillLevel>
+            </Skill>
+          )) : <Skill theme={t}>Skill 1<SkillLevel level="Intermediate" theme={t}>Intermediate</SkillLevel></Skill>}
         </SkillList>
-        <SectionTitle layout={layout}><ProjectsIcon /> Projects</SectionTitle>
+        <SectionTitle theme={t} layout={layout}><ProjectsIcon /> Projects</SectionTitle>
         <ProjectList>
           {(projects && projects.length > 0 && projects[0]?.title) ? projects.map((p, i) => (
-            <ProjectCard key={i} card={t.card}>
+            <ProjectCard key={i} theme={t}>
               <ProjectTitle>{p.title}</ProjectTitle>
               <ProjectDesc>{p.description}</ProjectDesc>
               {p.tags && (
@@ -73,14 +114,21 @@ const PortfolioPreview = ({ personal, skills, projects, theme = 'light', layout 
               {p.link && <ProjectLink href={p.link} target="_blank" rel="noopener noreferrer">View Project</ProjectLink>}
             </ProjectCard>
           )) : (
-            <ProjectCard card={t.card}>
+            <ProjectCard theme={t}>
               <ProjectTitle>Project Title</ProjectTitle>
               <ProjectDesc>Project description will appear here.</ProjectDesc>
             </ProjectCard>
           )}
         </ProjectList>
-        <SectionDivider />
-        <SectionTitle layout={layout}><ContactIcon /> Contact</SectionTitle>
+        {/* Custom Sections */}
+        {customSections && customSections.length > 0 && customSections.map((section, i) => (
+          <div key={i} style={{ margin: '1.2rem 0' }}>
+            <SectionTitle theme={t} layout={layout}>{section.title}</SectionTitle>
+            <div style={{ fontSize: '1.05rem', opacity: 0.92 }}>{section.content}</div>
+          </div>
+        ))}
+        <SectionDivider theme={t} />
+        <SectionTitle theme={t} layout={layout}><ContactIcon /> Contact</SectionTitle>
         <ContactInfo>
           {personal?.email && <span>Email: {personal.email}</span>}
           {personal?.phone && <span> | Phone: {personal.phone}</span>}
@@ -190,6 +238,13 @@ const SectionTitle = styled.h3`
   font-size: ${({ layout }) => (layout === 'modern' ? '1.3rem' : '1.1rem')};
   font-weight: 600;
   margin: 1.2rem 0 0.5rem 0;
+  color: ${({ theme }) => theme.text};
+  letter-spacing: 0.5px;
+  background: ${({ theme }) => theme.accent};
+  padding: 0.3rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px ${({ theme }) => theme.accent}33;
+  display: inline-block;
 `;
 
 const SkillList = styled.div`
@@ -200,19 +255,37 @@ const SkillList = styled.div`
 `;
 
 const Skill = styled.span`
-  background: #eebbc3;
-  color: #232946;
-  border-radius: 6px;
-  padding: 0.4rem 1rem;
+  background: ${({ theme }) => theme.accent};
+  color: ${({ theme }) => theme.text};
+  border-radius: 8px;
+  padding: 0.4rem 1.1rem;
   font-size: 1rem;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 4px ${({ theme }) => theme.accent}22;
   transition: background 0.18s, color 0.18s, transform 0.18s;
   cursor: pointer;
   &:hover {
-    background: #232946;
-    color: #fff;
+    background: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.accent};
     transform: scale(1.08);
   }
+`;
+
+const SkillLevel = styled.span`
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 0.18rem 0.7rem;
+  ${({ level, theme }) =>
+    level === 'Expert'
+      ? `background: linear-gradient(90deg, #ffd700 60%, ${theme.accent} 100%); color: ${theme.text};`
+      : level === 'Intermediate'
+      ? `background: linear-gradient(90deg, #8bd3dd 60%, ${theme.accent} 100%); color: ${theme.text};`
+      : `background: linear-gradient(90deg, #bfc9d1 60%, ${theme.accent} 100%); color: ${theme.text};`}
+  box-shadow: 0 1px 4px ${({ theme }) => theme.accent}22;
 `;
 
 const ProjectList = styled.div`
@@ -222,16 +295,18 @@ const ProjectList = styled.div`
 `;
 
 const ProjectCard = styled.div`
-  background: ${({ card }) => card};
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(35, 41, 70, 0.04);
-  padding: 1rem 1.2rem;
+  background: ${({ theme }) => theme.card};
+  border-radius: 12px;
+  box-shadow: 0 2px 12px ${({ theme }) => theme.accent}22;
+  padding: 1.1rem 1.3rem;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  transition: box-shadow 0.25s, transform 0.18s;
+  border: 2px solid ${({ theme }) => theme.accent};
+  transition: box-shadow 0.25s, transform 0.18s, border 0.18s;
   &:hover {
-    box-shadow: 0 4px 18px rgba(35, 41, 70, 0.13);
+    box-shadow: 0 4px 18px ${({ theme }) => theme.accent}55;
+    border: 2.5px solid ${({ theme }) => theme.text};
     transform: scale(1.025);
   }
 `;
@@ -318,7 +393,7 @@ const FinishedBtn = styled.button`
 const SectionDivider = styled.div`
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #eebbc3 0%, #8bd3dd 100%);
+  background: linear-gradient(90deg, ${({ theme }) => theme.accent} 0%, ${({ theme }) => theme.text} 100%);
   border-radius: 2px;
   margin: 1.2rem 0 1.2rem 0;
   opacity: 0.7;
