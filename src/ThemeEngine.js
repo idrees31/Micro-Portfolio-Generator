@@ -32,6 +32,21 @@ const themes = [
     name: 'Forest',
     colors: { bg: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', text: '#fff', accent: '#b2f7ef' },
   },
+  {
+    key: 'lavender',
+    name: 'Lavender',
+    colors: { bg: 'linear-gradient(135deg, #eecda3 0%, #ef629f 100%)', text: '#232946', accent: '#b993d6' },
+  },
+  {
+    key: 'midnight',
+    name: 'Midnight',
+    colors: { bg: 'linear-gradient(135deg, #232526 0%, #414345 100%)', text: '#fff', accent: '#6a82fb' },
+  },
+  {
+    key: 'coral',
+    name: 'Coral',
+    colors: { bg: 'linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%)', text: '#232946', accent: '#ff6f61' },
+  },
 ];
 
 const layouts = [
@@ -41,6 +56,9 @@ const layouts = [
   { key: 'timeline', name: 'Timeline' },
   { key: 'card', name: 'Card' },
   { key: 'compact', name: 'Compact' },
+  { key: 'sidebar', name: 'Sidebar' },
+  { key: 'resume', name: 'Resume' },
+  { key: 'magazine', name: 'Magazine' },
 ];
 
 const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimalist' }) => {
