@@ -53,12 +53,6 @@ const layouts = [
   { key: 'minimalist', name: 'Minimalist' },
   { key: 'classic', name: 'Classic' },
   { key: 'modern', name: 'Modern' },
-  { key: 'timeline', name: 'Timeline' },
-  { key: 'card', name: 'Card' },
-  { key: 'compact', name: 'Compact' },
-  { key: 'sidebar', name: 'Sidebar' },
-  { key: 'resume', name: 'Resume' },
-  { key: 'magazine', name: 'Magazine' },
 ];
 
 const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimalist' }) => {
@@ -87,19 +81,21 @@ const ThemeEngine = ({ onSave, initialTheme = 'light', initialLayout = 'minimali
   return (
     <ThemeSection>
       <h2>Choose Your Theme</h2>
-      <ThemeGrid>
-        {themes.map(theme => (
-          <ThemeCard
-            key={theme.key}
-            active={selectedTheme === theme.key}
-            onClick={() => handleThemeSelect(theme.key)}
-            style={{ background: theme.colors.bg }}
-          >
-            <ThemeName color={theme.colors.text}>{theme.name}</ThemeName>
-            <Accent color={theme.colors.accent} />
-          </ThemeCard>
-        ))}
-      </ThemeGrid>
+      {[0, 1, 2].map(row => (
+        <ThemeGrid key={row}>
+          {themes.slice(row * 3, row * 3 + 3).map(theme => (
+            <ThemeCard
+              key={theme.key}
+              active={selectedTheme === theme.key}
+              onClick={() => handleThemeSelect(theme.key)}
+              style={{ background: theme.colors.bg }}
+            >
+              <ThemeName color={theme.colors.text}>{theme.name}</ThemeName>
+              <Accent color={theme.colors.accent} />
+            </ThemeCard>
+          ))}
+        </ThemeGrid>
+      ))}
 
       <h2>Choose Layout Style</h2>
       <LayoutGrid>
