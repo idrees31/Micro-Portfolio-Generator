@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 function generateBios(input, count = 5) {
-  // Simulate 5 different bios/descriptions
+  // Generate 5 distinct bios/descriptions based on input keywords
   const base = input || 'various technologies';
-  return Array.from({ length: count }, (_, i) =>
-    `Professional Summary #${i + 1}: Experienced freelancer skilled in ${base}. Passionate about delivering high-quality projects, exceeding client expectations, and always learning new things. (Version ${i + 1})`
-  );
+  const templates = [
+    `Experienced professional with a strong background in ${base}. Dedicated to delivering exceptional results and driving innovation in every project.`,
+    `With expertise in ${base}, I excel at providing client-focused solutions and consistently exceeding expectations in dynamic environments.`,
+    `A passionate specialist in ${base}, known for a commitment to quality, continuous learning, and effective collaboration with diverse teams.`,
+    `Leveraging hands-on experience in ${base}, I bring creative problem-solving and a results-driven mindset to every opportunity.`,
+    `Proven track record in ${base}, combining technical proficiency with excellent communication to achieve outstanding project outcomes.`
+  ];
+  return templates.slice(0, count);
 }
 
 const AIGenerator = ({ onSave, initialBio }) => {
